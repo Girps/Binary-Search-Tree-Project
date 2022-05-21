@@ -153,14 +153,9 @@ class BST
 			{
 				Node* target = root; 
 				// New root is child with larger key
-				if (root_Param->left_Child->key > root_Param->right_Child->key) 
-				{
-					root_Param = root_Param->left_Child; 
-				}
-				else
-				{
-					root_Param = root_Param->right_Child; 
-				}
+				// Set lesser key as left child of new root
+				root_Param->right_Child->left_Child = root->left_Child; 
+				root_Param = root_Param->right_Child; 
 				T data = target->data; 
 				delete target; // delete old root
 				return data; 

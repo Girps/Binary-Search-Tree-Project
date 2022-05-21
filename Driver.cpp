@@ -5,9 +5,11 @@
 int main() 
 {
 	BST<std::string> tree; 
-	tree.add_Node("A",1);
+	tree.add_Node("A",10);
+	tree.add_Node("B",5);
+	tree.add_Node("C", 12); 
 	tree.in_Order_Traversal(); 
-	tree.remove_Node(1); 
+	tree.remove_Node(10); 
 	printf("\n");
 	return 0; 
 }
