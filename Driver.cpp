@@ -11,5 +11,6 @@ int main()
 	tree.in_Order_Traversal(); 
 	tree.remove_Node(10); 
 	printf("\n");
+	tree.in_Order_Traversal(); 
 	return 0; 
 }

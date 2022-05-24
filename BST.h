@@ -148,17 +148,17 @@ class BST
 				T data = target->data;
 				delete target;
 				return data;
-			} // case 4 two children 
+			} /*Case 4: Node with two children find min key of right subtree and have it become new root*/
 			else 
 			{
 				Node* target = root; 
-				// New root is child with larger key
-				// Set lesser key as left child of new root
-				root_Param->right_Child->left_Child = root->left_Child; 
-				root_Param = root_Param->right_Child; 
-				T data = target->data; 
-				delete target; // delete old root
-				return data; 
+				// New root is min node in right subtree of root
+				Node* temp = find_Min_Node(root->right_Child);
+				target->data = temp->data; // Copy data
+				target->key = temp->key; // Copy key
+				// Now remove node from the BST
+				return remove_Node_Helper(root->right_Child,temp->key);
+
 			}
 		}
 		else if(key_Param > root_Param->key) // not in root recursive call
@@ -171,6 +171,74 @@ class BST
 			remove_Node_Helper(root_Param->right_Child, key_Param);
 		}
 	}
+
+	/* Pointer retunring function, returns a pointer to smalles node in the BST */
+	Node* find_Min_Node(Node* root_Param)
+	{
+		// Recursive case if their is a left child recurive call 
+		if (root_Param->left_Child != nullptr)
+		{
+			return find_Min_Node(root_Param->left_Child); 
+		}
+		else // Base case if not left child pointer carrying its address 
+		{
+			return root_Param; 
+		}
+		
+	}
+
+	/*Bool returning function, binary searches tree for a key given by the argument value*/
+	bool binary_Search_Helper(Node* root_Param, int key_Param) 
+	{
+		// if list is node is not present return flase
+		if (root_Param == nullptr) 
+		{
+			false; 
+		}
+		// if root->key == key_Param return true
+		if (root_Param->data == key_Param) 
+		{
+			return true; 
+		}
+		// if key is larger traverse to right sub tree
+		if (key_Param > root_Param->key) 
+		{
+			binary_Search_Helper(root_Param->right_Child); 
+		}
+		// if key is smaller traverse to left subtree 
+		else
+		{
+			binary_Search_Helper(root_Param->right_Child);
+		}
+	}
+
+	/* T returning recurisve function binar searches node with matching key and 
+		returns by values its data */
+	T retrieve_Node_Helper(Node* root_Param, int key_Param) 
+	{
+		/*If not found return an exception */
+		if (root_Param)
+		{
+			throw no_Such_Element_Execption{}; 
+		}
+
+		// if root->key == key_Param return true
+		if (root_Param->data == key_Param)
+		{
+			return root_Param->data; 
+		}
+		// if key is larger traverse to right sub tree
+		if (key_Param > root_Param->key)
+		{
+			retrieve_Node_Helper(root_Param->right_Child);
+		}
+		// if key is smaller traverse to left subtree 
+		else
+		{
+			retrieve_Node_Helper(root_Param->right_Child);
+		}
+	}
+
 	public: 
 		BST() :root{nullptr} {}
 		~BST() { free_Nodes();  std::cout << "\n~BST freed~\n";  }
@@ -210,17 +278,24 @@ class BST
 			root->key << " )";
 		}
 
+		/* Void function calls recurisve helper and prints data inOrder*/
 		void in_Order_Traversal() 
 		{
 			in_Order_Traversal_Helper(this->root); 
 		}
 
-		bool binary_Search(T key)
+		/* Bool retuning function member calls a recurivse function that binary search a node with matching key*/
+		bool binary_Search(T key,int key_Param)
 		{
-			
+			return binary_Search_Helper(this->root, key_Param); 
 		}
 
-		T retrieve_Node() {} 
+		/* Function memeber returns by value data from BST with matching key*/
+		T retrieve_Node(int key_Param)
+		{
+			return retrieve_Node_Helper(this->root, key_Param);
+
+		} 
 
 		/*Void function calls recursive helper funciton deleteing node in postOrder and deleteing root last */
 		void free_Nodes() 
