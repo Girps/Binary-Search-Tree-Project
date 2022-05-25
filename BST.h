@@ -59,6 +59,23 @@ class BST
 		root_Param = nullptr; 
 	}
 
+	/* Recursive void function help deep copy another tree to this
+		tree instance*/
+	void pre_Order_Copy(Node* const &root_Param) 
+	{
+		this->add_Node(root_Param->data,root_Param->key); 
+		// Traverse left subtree
+		if (root_Param->left_Child != nullptr)
+		{
+			pre_Order_Copy(root_Param->left_Child);
+		}
+		// Traverse right subtree 
+		if (root_Param->right_Child != nullptr)
+		{
+			pre_Order_Copy(root_Param->right_Child);
+		}
+	}
+
 	/* Void recursive function, traverses BST from root, left subtree to right subtree, passes by pointer
 		reference with const data */
 	void pre_Order_Traversal_Helper( Node* const &root_Param) 
@@ -172,7 +189,7 @@ class BST
 		}
 	}
 
-	/* Pointer retunring function, returns a pointer to smalles node in the BST */
+	/* Pointer returnign function, returns a pointer to smallest node in the BST */
 	Node* find_Min_Node(Node* root_Param)
 	{
 		// Recursive case if their is a left child recurive call 
@@ -242,6 +259,56 @@ class BST
 	public: 
 		BST() :root{nullptr} {}
 		~BST() { free_Nodes();  std::cout << "\n~BST freed~\n";  }
+
+		/* Move constructor takes resources of rr value of type BST*/
+		BST(BST&& rr_BST) 
+		{
+			// Assign this instance's root pointer to rr value root 
+			this->root = rr_BST.root; 
+			// Now set the other root to null pointer
+			rr_BST.root = nullptr; 
+		}
+
+		/* Deep copy constructor PreOrder copies parameter BST */ 
+		BST(const BST& rr_BST ) 
+		{
+			std::cout << "Deep copy constructor called";
+			this->pre_Order_Copy(rr_BST.root); 
+		}
+
+		/* Overloaded assignment operator deep copies BST in paramter to 
+			this instance, return a refence to support chaining */
+		BST& operator = (const BST& rr_BST) 
+		{
+			// Avoid self assignment
+			if (&rr_BST == this)
+			{
+				return *this; 
+			}
+			else 
+			{
+				// Free node
+				free_Nodes(); 
+				this->pre_Order_Copy(rr_BST.root);
+			}
+		}
+
+		/* Move assignment operator overloaded, returns a referecence to support chaining*/
+		BST& operator = (BST&& rr_BST) 
+		{
+			// Avoid self assignment
+			if(&rr_BST == this)
+			{
+				return *this; 
+			}
+			else 
+			{
+				// Otherwise free nodes and take resources of rr BST
+				this->free_Nodes(); 
+				this->root = rr_BST.root; 
+				rr_BST.root = nullptr; 
+			}
+		}
 
 		/* Getter function returns data of the root node*/
 		T get_Root() 

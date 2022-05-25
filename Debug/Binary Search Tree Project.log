@@ -1,5 +1,4 @@
 ﻿  BST.h
   Driver.cpp
   Generating Code...
-C:\Users\Jesse\source\repos\Binary Search Tree Project\BST.h(173): warning C4715: 'BST<std::basic_string<char,std::char_traits<char>,std::allocator<char> > >::remove_Node_Helper': not all control paths return a value
   Binary Search Tree Project.vcxproj -> C:\Users\Jesse\source\repos\Binary Search Tree Project\Debug\Binary Search Tree Project.exe

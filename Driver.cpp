@@ -4,13 +4,14 @@
 
 int main() 
 {
-	BST<std::string> tree; 
-	tree.add_Node("A",10);
-	tree.add_Node("B",5);
-	tree.add_Node("C", 12); 
-	tree.in_Order_Traversal(); 
-	tree.remove_Node(10); 
-	printf("\n");
-	tree.in_Order_Traversal(); 
+	BST<int> tree; 
+
+	tree.add_Node(1,1);
+	tree.add_Node(2,2);
+	tree.add_Node(3,3); 
+
+	BST<int> tree2 = tree;
+	tree2.pre_Order_Traveral(); 
+
 	return 0; 
 }
